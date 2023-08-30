@@ -25,14 +25,25 @@ app.post('/addBrand', async (req, res) => {
     res.status(200).send(res2)
 })
 
-app.get('/data', async (req, res) => {
+app.get('/data/:param', async (req, res) => {
+
+    let param = req.params['param'];
     const brandsRef = db.collection('brands')
     const mainDocs = [];
+
+    if(param === "order"){
+        const doc = await brandsRef.orderBy('brandName').get();
+        doc.forEach(doc => {
+            mainDocs.push({ ...doc.data(), _id: doc.id });
+          });
+    }
+   else if (param === "any"){
     const doc = await brandsRef.get()
     doc.forEach(doc => {
         mainDocs.push({ ...doc.data(), _id: doc.id });
       });
-
+   }
+  
     res.status(200).send(mainDocs)
 })
 
