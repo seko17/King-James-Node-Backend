@@ -5,12 +5,10 @@
  - Description
  - Prerequisites
  - Installation
- - Usage
- - Configuration
  - API Routes
 
  # Description
-This repository contains the source code for an Express.js server. This server is designed to provide APIs to store brand name,and brand images and also to retreive them. It serves as a backend for the King James React App which is a technical assessment for Full Stack Developer position at Accenture.
+This repository contains the source code for an Express.js server. This server is designed to provide APIs to store brand names, and brand images, and retrieve them. It serves as a backend for the King James React App, a technical assessment for the Full Stack Developer position at Accenture.
 
 # Prerequisites
 Before you begin, ensure you have met the following requirements:
@@ -23,19 +21,19 @@ To install and run this server, follow these steps:
 
 ## Clone the repository:
 
- git clone https://github.com/seko17/King-James-Node-Backend.git
+    git clone https://github.com/seko17/King-James-Node-Backend.git
 
 ## Change to the project directory:
 
-  cd King-James-Node-Backend
+    cd King-James-Node-Backend
 
 ## Install dependencies:
 
-  npm install
+    npm install
 
 ## Start the server:
 
-  node server
+    node server
 
 The server will start and listen on the specified port.
 
