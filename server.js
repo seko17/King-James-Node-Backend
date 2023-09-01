@@ -13,6 +13,7 @@ app.use((req, res, next) => {
     next();
 })
 
+
 //routes
 app.post('/addBrand', async (req, res) => {
     const { name, url } = req.body
@@ -43,7 +44,40 @@ app.get('/data/:param', async (req, res) => {
         mainDocs.push({ ...doc.data(), _id: doc.id });
       });
    }
-  
+   else if(param === "AG"){
+    const doc = await brandsRef.where("alphabetRange", ">=", "A")
+    .where("alphabetRange", "<=", "G").get();
+
+    doc.forEach(doc => {
+        mainDocs.push({ ...doc.data(), _id: doc.id });
+      });
+
+   }
+   else if(param === "HN"){
+    const doc = await brandsRef.where("alphabetRange", ">=", "H")
+    .where("alphabetRange", "<=", "N").get();
+
+    doc.forEach(doc => {
+        mainDocs.push({ ...doc.data(), _id: doc.id });
+      });     
+   }
+   else if(param === "OU"){
+    const doc = await brandsRef.where("alphabetRange", ">=", "O")
+    .where("alphabetRange", "<=", "U").get();
+
+    doc.forEach(doc => {
+        mainDocs.push({ ...doc.data(), _id: doc.id });
+      });
+   }
+   else if(param === "VZ"){
+    const doc = await brandsRef.where("alphabetRange", ">=", "V")
+    .where("alphabetRange", "<=", "Z").get();
+
+    doc.forEach(doc => {
+        mainDocs.push({ ...doc.data(), _id: doc.id });
+      });
+
+   }
     res.status(200).send(mainDocs)
 })
 
