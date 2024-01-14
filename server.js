@@ -6,6 +6,7 @@ const port = 8383
 const cors = require('cors');
 const { db } = require('./firebase-admin.js')
 require('dotenv').config();
+const { loadEmailTemplate } = require('./emailTemplates/emailTemplate.js'); // Adjust the path accordingly
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -121,6 +122,26 @@ app.post('/send-email', (req, res) => {
   });
 });
 
+app.post('/send-confirm-email', (req, res) => {
+    const { to, subject } = req.body;
+
+    // Load HTML template
+    const htmlTemplate = loadEmailTemplate('confirm.html');
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to,
+        subject,
+        html: htmlTemplate,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return res.status(500).send(error.toString());
+        }
+        res.status(200).send('Email sent: ' + info.response);
+    });
+});
 
 
 app.listen(port, () => console.log(`Server has started on port: ${port}`))
