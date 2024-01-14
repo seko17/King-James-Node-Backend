@@ -3,6 +3,7 @@ const { FieldValue } = require('firebase-admin/firestore')
 const nodemailer = require('nodemailer');
 const app = express()
 const port = 8383
+const cors = require('cors');
 const { db } = require('./firebase-admin.js')
 require('dotenv').config();
 
