@@ -1,8 +1,10 @@
 const express = require('express')
 const { FieldValue } = require('firebase-admin/firestore')
+const nodemailer = require('nodemailer');
 const app = express()
 const port = 8383
 const { db } = require('./firebase-admin.js')
+require('dotenv').config();
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -80,6 +82,42 @@ app.get('/data/:param', async (req, res) => {
    }
     res.status(200).send(mainDocs)
 })
+
+//Email routes
+
+const transporter = nodemailer.createTransport({
+    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+  auth: {
+    user:process.env.GMAIL_USER , 
+    pass: process.env.GMAIL_PASSWORD,
+  },
+});
+
+app.post('/send-email', (req, res) => {
+  const { to, subject, text, attachments } = req.body;
+
+  const mailOptions = {
+    from: process.env.GMAIL_EMAIL,
+    to,
+    subject,
+    text,
+    attachments,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      res.status(500).json({ error: 'Error sending email' });
+    } else {
+      console.log('Email sent:', info.response);
+      res.status(200).json({ message: 'Email sent successfully' });
+    }
+  });
+});
+
 
 
 app.listen(port, () => console.log(`Server has started on port: ${port}`))
